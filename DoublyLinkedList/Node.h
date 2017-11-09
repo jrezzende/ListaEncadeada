@@ -11,16 +11,16 @@ class Node
 		Node *prevNode;
 	
 	public:
-		Node();
-		Node(int value);
-		~Node();
+		Node(); // default node constructor (nullptrs)
+		Node(int value); // constructor assigning a value to data
+		~Node(); // destructor
 
-		int getData();
-		void setData(int value);
-		Node *getNext();
-		Node *getPrev();
-		void setNext(Node *node);
-		void setPrev(Node *node);
+ 		int getData(); // returns data from node
+		void setData(int value); // assigns new data to a node
+		Node *getNext(); // returns next node
+		Node *getPrev(); // returns previous node
+		void setNext(Node *node); // sets next node
+		void setPrev(Node *node); // sets previous node
 };
 
 #endif

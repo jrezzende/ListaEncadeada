@@ -70,7 +70,7 @@ void List::appendNode(int value)
 Node * List::getPosition(int pos)
 {
 	if ((pos < 0) || (pos > listSize))
-		return NULL;
+		return nullptr;
 
 	Node *node= head;
 	for (int i= 1; i < pos; i++)
@@ -226,6 +226,11 @@ void List::deleteAllNodes()
 int List::getListSize()
 {
 	return listSize;
+}
+
+void List::setListName(std::string newName)
+{
+	listName= newName;
 }
 
 
