@@ -5,10 +5,31 @@
 
 using namespace std;
 
-static int getFirstMenuOption();
-static int getSecondMenuOption();
-
 Menu::Menu()
+{
+}
+
+void Menu::displayFirstMenu(ListManager& lmanager)
+{
+	system("cls");
+	
+	int op;
+
+	do {
+		op= getFirstOp();
+		switch (op)
+		{
+		case 1: lmanager.createBothLists(); break;
+		case 2: lmanager.displayLists(); break;
+		case 3: lmanager.concatenateLists();
+
+		default:
+			break;
+		}
+	}
+}
+
+void Menu::displaySecondMenu(ListManager &, List &)
 {
 }
 
@@ -16,39 +37,29 @@ Menu::~Menu()
 {
 }
 
-void Menu::mainMenu()
-{
 
-	int option= Menu::getFirstMenuOption();
 
-	switch (option)
-	{
-	
-	case 1:
-
-	}
-
-}
-
-int Menu::getFirstMenuOption()
+int Menu::getFirstOp()
 {
 	int option;
 	cout << "//////////////////////////////////////////////////////\n";
 	cout << setw(27) << "Menu" << endl;
 	cout << "//////////////////////////////////////////////////////\n";
-	cout << "            " << "Option 1: Give a name to a list" << endl;
+	cout << "            " << "Option 1: Create both lists" << endl;
 	cout << "            " << "Option 2: Display all lists" << endl;
 	cout << "            " << "Option 3: Concatenate two lists" << endl;
-	cout << "            " << "Option 4: Manage a list" << endl;
+	cout << "            " << "Option 4: Delete a list" << endl;
+	cout << "            " << "Option 5: Manage a list" << endl;
 	cout << "            " << "Option 0: Exit" << endl;
 	cout << "//////////////////////////////////////////////////////\n" << endl;
 	cin >> option;
+
 	return option;
 }
 
-int Menu::getSecondMenuOption()
-{
 
+int Menu::getSecondOp()
+{
 	int option;
 
 	cout << "/////////////////////////////////////////////////////////////////\n";
@@ -66,6 +77,8 @@ int Menu::getSecondMenuOption()
 	cout << "            " << "Option 0: Exit" << endl;
 	cout << "/////////////////////////////////////////////////////////////////\n" << endl;
 	cin >> option;
-
+	
 	return option;
 }
+
+

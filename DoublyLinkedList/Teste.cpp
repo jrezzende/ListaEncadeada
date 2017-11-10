@@ -1,14 +1,13 @@
 #include "stdafx.h"
 #include <iostream>
-#include "Node.h"
+#include <iomanip>
 #include "List.h"
 #include "Menu.h"
-#include <iomanip>
+#include "ListManager.h"
 
 using namespace std;
 
 void main() 
 {
-	Menu::getFirstMenuOption();
-	Menu::getSecondMenuOption();
 }
+	

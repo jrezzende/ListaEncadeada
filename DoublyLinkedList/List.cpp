@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "List.h"
-#include "Node.h"
 #include <iostream>
 
 List::List()
 {
 	head= nullptr;
 	tail= nullptr; 
-	listSize = 0;
+	listSize= 0;
+	listName= "";
 }
 
 List::List(int value)
@@ -15,18 +15,19 @@ List::List(int value)
 	head= new Node(value);
 	tail= head;
 	listSize= 1;
+	listName= "";
 }
 
 List::~List()
 {
 }
 
-Node * List::getHead()
+List::Node * List::getHead()
 {
 	return head;
 }
 
-Node * List::getTail()
+List::Node * List::getTail()
 {
 	return tail;
 }
@@ -35,9 +36,9 @@ void List::prependNode(int value)
 {
 	Node *new_node= new Node(value);
 
-	new_node->setPrev(nullptr);
-	new_node->setNext(head);
-	head->setPrev(new_node);
+	new_node->prevNode= nullptr;
+	new_node->nextNode= nullptr;
+	head->prevNode= new_node;
 	head= new_node;
 	listSize++;
 }
@@ -49,32 +50,32 @@ void List::appendNode(int value)
 	if (head == nullptr)
 	{
 		head= new_node;
-		head->setNext(tail);
-		head->setPrev(nullptr);
+		head->nextNode= tail;
+		head->prevNode= nullptr;
 		tail= new_node;
-		tail->setNext(nullptr);
-		tail->setPrev(head);
+		tail->nextNode= nullptr;
+		tail->prevNode= head;
 		listSize++;
 	}
 	else
 	{
-		new_node->setNext(nullptr);
-		new_node->setPrev(tail);
-		tail->setNext(new_node);
+		new_node->nextNode= nullptr;
+		new_node->prevNode= tail;
+		tail->nextNode= new_node;
 		tail= new_node;
 		listSize++;
 	}
 
 }
 
-Node * List::getPosition(int pos)
+List::Node * List::getPosition(int pos)
 {
 	if ((pos < 0) || (pos > listSize))
 		return nullptr;
 
 	Node *node= head;
 	for (int i= 1; i < pos; i++)
-		node= node->getNext();
+		node= node->nextNode;
 
 	return node;
 }
@@ -97,13 +98,13 @@ void List::addInPosition(int value, int position)
 	else 
 		prev= getPosition(position-1);
 
-	next= prev->getNext();
+	next= prev->nextNode;
 
 	
-	prev->setNext(new_node);
-	new_node->setPrev(prev);
-	next->setPrev(new_node);
-	new_node->setNext(next);
+	prev->nextNode= new_node;
+	new_node->prevNode= prev;
+	next->prevNode= new_node;
+	new_node->nextNode= next;
 
 	listSize++;
 }
@@ -112,7 +113,7 @@ void List::removeFirst()
 {
 	if (head)
 	{
-		Node *temp= head->getNext();
+		Node *temp= head->nextNode;
 		delete head;
 		head = temp;
 		--listSize;
@@ -125,7 +126,7 @@ void List::removeLast()
 {
 	if (tail)
 	{
-		Node *temp= tail->getPrev();
+		Node *temp= tail->prevNode;
 		delete tail;
 		tail = temp;
 		--listSize;
@@ -140,11 +141,11 @@ void List::removeInPos(int pos)
 	Node *prev;
 	Node *next;
 
-	prev= temp->getPrev();
-	next= temp->getNext();
+	prev= temp->prevNode;
+	next= temp->nextNode;
 	delete temp;
-	prev->setNext(next);
-	next->setPrev(prev);
+	prev->nextNode= next;
+	next->prevNode= prev;
 
 	listSize--;
 }
@@ -159,7 +160,7 @@ void List::displayAsc()
 	for (int i= 1; i < listSize; i++) 
 	{
 		std::cout << "In position: " << i << " the value is: " << node->getData() << std::endl;
-		node= node->getNext();
+		node= node->nextNode;
 	}
 
 	std::cout << "In position: " << listSize << " the value is: " << node->getData() << std::endl;
@@ -177,8 +178,8 @@ void List::displayDesc()
 
 	while (i > 0)
 	{
-		std::cout << "In position: " << node << " " << i-- << " the value is: " << node->getData() << "\n";
-		node= node->getPrev();
+		std::cout << "In position: " << i-- << " the value is: " << node->getData() << "\n";
+		node= node->prevNode;
 	}
 }
 
@@ -189,7 +190,7 @@ void List::sortList()
 
 	while (current != nullptr)
 	{
-		for (next= current->getNext(); next != nullptr; next= next->getNext())
+		for (next= current->nextNode; next != nullptr; next= next->nextNode)
 		{
 			if (current->getData() > next->getData())
 			{
@@ -198,14 +199,14 @@ void List::sortList()
 				next->setData(tempData);
 			}
 		}
-		current= current->getNext();
+		current= current->nextNode;
 	}
 }
 
 void List::concatList(List *toConcat)
 {
-	tail->setNext(toConcat->getHead());
-	toConcat->head->setPrev(tail);
+	tail->nextNode= toConcat->getHead();
+	toConcat->head->prevNode= tail;
 	listSize+= toConcat->getListSize();
 }
 
@@ -215,7 +216,7 @@ void List::deleteAllNodes()
 
 	while (temp)
 	{
-		Node *tempNext= temp->getNext();
+		Node *tempNext= temp->nextNode;
 		delete temp;
 		temp= tempNext;
 	}

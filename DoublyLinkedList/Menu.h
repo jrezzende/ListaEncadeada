@@ -2,6 +2,7 @@
 #ifndef MENU_H
 #define MENU_H
 #include "List.h"
+#include "ListManager.h"
 
 class Menu
 {
@@ -12,12 +13,12 @@ class Menu
 		List secondList;
 
 		Menu();
-		~Menu();
 		
-		void mainMenu();
-		static int getFirstMenuOption();
-		static int getSecondMenuOption();
+		void displayFirstMenu(ListManager&);
+		void displaySecondMenu(ListManager&, List&);
+		int getFirstOp();
+		int getSecondOp();
 
 };
 
-#endif // !MENU_H
+#endif // !MENU_H */
