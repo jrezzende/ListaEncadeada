@@ -9,5 +9,12 @@ using namespace std;
 
 void main() 
 {
+	_CrtMemState s1;
+
+	Menu::Menu();
+
+	_CrtMemCheckpoint(&s1);
+	_CrtMemDumpStatistics(&s1);
+	_CrtDumpMemoryLeaks();
 }
 	

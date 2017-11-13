@@ -33,7 +33,7 @@ class List
 		std::string listName;
 		List(); // default constructor
 		List(int value); // constructor assigning a data
-		// List(std::string name);
+		List(string);
 		~List(); // destructor
 
 		Node *getHead(); // return first node

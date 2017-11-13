@@ -12,47 +12,41 @@ void ListManager::setCurrentList(int n)
 		return;
 }
 
-void ListManager::createBothLists()
+void ListManager::createBothLists(string firstName, string secondName)
 {
-	firstList= new List();
-	secondList= new List();
-}
 
-void ListManager::setListName(std::string name) // set name to an attrib list(first or second)
-{
-	if (currentList)
-		currentList->setListName(name);
-	else
-		cout << "There is no list available\n";
-	return;
+	firstList= new List(firstName);
+	secondList= new List(secondName);
 }
 
 void ListManager::displayLists() // display attrib name 
 {
-	if (firstList)
-		if (firstList->listName == "")
-			cout << "Empty list name.";
-		cout << "List name: " << firstList->listName << endl;
-		firstList->displayAsc();
-	
-	if (secondList)
-		if (secondList->listName == "")
-			cout << "Empty list name.";
-		cout << "List name: " << secondList->listName << endl;
-		secondList->displayAsc();
+	int position = 1;
+		cout << "In position: " << position++ << " the list name is: " << firstList->listName << endl;
+
+		cout << "In position: " << position << " the list name is: " << secondList->listName << endl;
 
 		return;
 }
 
-bool ListManager::concatenateLists(List * toConcat) //if list total size = list1+list2(size) ret true
+bool ListManager::concatenateLists(int pos) //if list total size = list1+list2(size) ret true
 {
-	if (toConcat == secondList)
-		currentList->concatList(secondList);
 
-	else if (toConcat == firstList)
-		currentList->concatList(firstList);
+	int totalSize;
 
-	int totalSize= toConcat->getListSize + currentList->getListSize();
+	if (pos != 1 && pos != 2)
+		return false;
+
+	if (pos == 1)
+	{
+		secondList->concatList(firstList);
+		totalSize= secondList->getListSize() + firstList->getListSize();
+	}
+	else if (pos == 2)
+	{
+		firstList->concatList(secondList);
+		totalSize= firstList->getListSize() + secondList->getListSize();
+	}
 
 	if (currentList->getListSize() == totalSize)
 	{

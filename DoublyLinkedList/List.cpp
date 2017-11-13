@@ -18,6 +18,11 @@ List::List(int value)
 	listName= "";
 }
 
+List::List(string name)
+{
+	listName= name;
+}
+
 List::~List()
 {
 }
@@ -36,9 +41,15 @@ void List::prependNode(int value)
 {
 	Node *new_node= new Node(value);
 
-	new_node->prevNode= nullptr;
-	new_node->nextNode= nullptr;
-	head->prevNode= new_node;
+	if (getListSize() != 0)
+	{
+		Node* temp= head;
+		new_node->nextNode= temp;
+		temp->prevNode= new_node;
+	}
+	else
+		tail= new_node;
+
 	head= new_node;
 	listSize++;
 }
@@ -47,27 +58,18 @@ void List::appendNode(int value)
 {
 	Node *new_node= new Node(value);
 
-	if (head == nullptr)
+	if (getListSize() != 0)
 	{
-		head= new_node;
-		head->nextNode= tail;
-		head->prevNode= nullptr;
-		tail= new_node;
-		tail->nextNode= nullptr;
-		tail->prevNode= head;
-		listSize++;
+		Node *temp= tail;
+		temp->nextNode= new_node;
+		new_node->prevNode= temp;
 	}
 	else
-	{
-		new_node->nextNode= nullptr;
-		new_node->prevNode= tail;
-		tail->nextNode= new_node;
-		tail= new_node;
-		listSize++;
-	}
+		head= new_node;
 
+	tail= new_node;
+	listSize++;
 }
-
 List::Node * List::getPosition(int pos)
 {
 	if ((pos < 0) || (pos > listSize))
@@ -154,8 +156,10 @@ void List::displayAsc()
 {
 	Node *node= head;
 
-	if (listSize == 0)
+	if (listSize == 0) {
 		std::cout << "The list is empty";
+		return;
+	}
 
 	for (int i= 1; i < listSize; i++) 
 	{
@@ -163,7 +167,7 @@ void List::displayAsc()
 		node= node->nextNode;
 	}
 
-	std::cout << "In position: " << listSize << " the value is: " << node->getData() << std::endl;
+	std::cout << "In position: " << listSize << " the value is: " << node->getData();
 }
 
 void List::displayDesc()
@@ -174,7 +178,7 @@ void List::displayDesc()
 
 
 	if (listSize == 0)
-		std::cout << "The list is empty";
+		std::cout << "The list is empty\n";
 
 	while (i > 0)
 	{

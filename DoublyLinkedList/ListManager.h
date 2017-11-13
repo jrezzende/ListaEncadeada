@@ -13,10 +13,10 @@ public:
 
 	~ListManager() { firstList= secondList= nullptr; };
 
-	void createBothLists();
-	void setListName(std::string name);
+	void createBothLists(string, string);
+	void setListName(std::string);
 	void displayLists();
-	bool concatenateLists(List *toConcat);
+	bool concatenateLists(int pos);
 	void deleteLists();
 	void setCurrentList(int n);
 

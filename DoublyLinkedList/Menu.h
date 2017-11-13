@@ -3,21 +3,17 @@
 #define MENU_H
 #include "List.h"
 #include "ListManager.h"
+#include "User.h"
+class User;
+class ListManager;
 
-class Menu
+namespace Menu
 {
-
-	public:
-
-		List firstList;
-		List secondList;
-
-		Menu();
-		
-		void displayFirstMenu(ListManager&);
-		void displaySecondMenu(ListManager&, List&);
+		void Menu();
+		void displayFirstMenu(ListManager&, User&);
+		void displaySecondMenu(ListManager&, User&, List&);
 		int getFirstOp();
-		int getSecondOp();
+		int getSecondOp(List&);
 
 };
 
