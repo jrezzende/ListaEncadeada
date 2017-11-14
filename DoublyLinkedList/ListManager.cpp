@@ -12,6 +12,31 @@ void ListManager::setCurrentList(int n)
 		return;
 }
 
+void ListManager::setFirstList(List* list)
+{
+	firstList= list;
+}
+
+void ListManager::setSecondList(List* list)
+{
+	secondList= list;
+}
+
+List * ListManager::getFirstList()
+{
+	return firstList;
+}
+
+List * ListManager::getSecondList()
+{
+	return secondList;
+}
+
+List * ListManager::getCurrentList()
+{
+	return currentList;
+}
+
 void ListManager::createBothLists(string firstName, string secondName)
 {
 
@@ -34,29 +59,23 @@ bool ListManager::concatenateLists(int pos) //if list total size = list1+list2(s
 
 	int totalSize;
 
-	if (pos != 1 && pos != 2)
-		return false;
+		if (pos != 1 && pos != 2)
+		{
+			cout << "Invalid list number, cannot concatenate.\n";
+			return false;
+		}
 
 	if (pos == 1)
 	{
 		secondList->concatList(firstList);
 		totalSize= secondList->getListSize() + firstList->getListSize();
+		cout << "List one was successfully attached to the end of list two\n";
 	}
 	else if (pos == 2)
 	{
 		firstList->concatList(secondList);
 		totalSize= firstList->getListSize() + secondList->getListSize();
-	}
-
-	if (currentList->getListSize() == totalSize)
-	{
-		cout << "Lists have been concatenated\n";
-		return true;
-	}
-	else
-	{
-		cout << "Couldn't concatenate lists.\n";
-		return false;
+		cout << "List two was successfully attached to the end of list one\n";
 	}
 }
 
@@ -68,3 +87,5 @@ void ListManager::deleteLists() // clear name and list nodes
 
 	cout << "List has been cleared\n";
 }
+
+

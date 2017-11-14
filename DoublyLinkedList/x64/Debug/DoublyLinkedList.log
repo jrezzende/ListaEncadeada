@@ -1,3 +1,4 @@
 ﻿  User.cpp
+c:\users\joao.mathias\source\repos\doublylinkedlist\listaencadeada\doublylinkedlist\user.cpp(187): warning C4715: 'User::uConcatenateLists': nem todos os caminhos de controle retornam um valor
   DoublyLinkedList.vcxproj -> C:\Users\joao.mathias\source\repos\DoublyLinkedList\ListaEncadeada\x64\Debug\DoublyLinkedList.exe
   DoublyLinkedList.vcxproj -> C:\Users\joao.mathias\source\repos\DoublyLinkedList\ListaEncadeada\x64\Debug\DoublyLinkedList.pdb (Partial PDB)

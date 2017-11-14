@@ -6,19 +6,26 @@
 
 class ListManager 
 {
-public:
+private:
 	List *firstList;
 	List *secondList;
 	List *currentList; // set current list
 
+public:
+	ListManager() { firstList= nullptr; secondList= nullptr; currentList= firstList; };
 	~ListManager() { firstList= secondList= nullptr; };
 
 	void createBothLists(string, string);
-	void setListName(std::string);
 	void displayLists();
 	bool concatenateLists(int pos);
 	void deleteLists();
 	void setCurrentList(int n);
+	void setFirstList(List*);
+	void setSecondList(List*);
+
+	List* getFirstList();
+	List* getSecondList();
+	List* getCurrentList();
 
 };
 

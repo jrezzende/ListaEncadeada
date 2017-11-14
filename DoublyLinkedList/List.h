@@ -51,6 +51,5 @@ class List
 		void concatList(List *toConcat); // concatenate a list to another
 		void deleteAllNodes(); // clear list
 		int getListSize(); // return list size
-		void setListName(std::string newName); // set a name to a list
 };
 #endif

@@ -93,7 +93,7 @@ void List::addInPosition(int value, int position)
 		return;
 	}
 
-	else if (position >= listSize) {
+	else if (position >= getListSize()) {
 		appendNode(value);
 		return;
 	}
@@ -115,9 +115,10 @@ void List::removeFirst()
 {
 	if (head)
 	{
-		Node *temp= head->nextNode;
+		Node *temp;
+		temp = head->nextNode;
 		delete head;
-		head = temp;
+		head= temp;
 		--listSize;
 	}
 	else
@@ -128,9 +129,10 @@ void List::removeLast()
 {
 	if (tail)
 	{
-		Node *temp= tail->prevNode;
+		Node *temp;
+		temp = tail->prevNode;
 		delete tail;
-		tail = temp;
+		tail= temp;
 		--listSize;
 	}
 	else
@@ -167,7 +169,7 @@ void List::displayAsc()
 		node= node->nextNode;
 	}
 
-	std::cout << "In position: " << listSize << " the value is: " << node->getData();
+	std::cout << "In position: " << listSize << " the value is: " << node->getData() << endl;
 }
 
 void List::displayDesc()
@@ -223,8 +225,8 @@ void List::deleteAllNodes()
 		Node *tempNext= temp->nextNode;
 		delete temp;
 		temp= tempNext;
+		listSize--;
 	}
-	listSize= 0;
 	head= tail= nullptr;
 }
 
@@ -232,11 +234,5 @@ int List::getListSize()
 {
 	return listSize;
 }
-
-void List::setListName(std::string newName)
-{
-	listName= newName;
-}
-
 
 

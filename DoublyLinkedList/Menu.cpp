@@ -34,11 +34,13 @@ void Menu::displayFirstMenu(ListManager& lmanager, User& user)
 		case 5:
 		{
 			system("cls");
-			List* list = user.uSetCurrentList(lmanager);
-			if (list) {
-				Menu::displaySecondMenu(lmanager, user, *list);
+			user.uSetCurrentList(lmanager);
+			if (lmanager.getCurrentList()) {
+				Menu::displaySecondMenu(lmanager, user);
 				break;
 			}
+			else
+				user.uDisplayLists(lmanager); break;
 		}
 		case 0: exit(0);
 		default: system("cls"); cout << "Invalid option." << endl; break;
@@ -46,26 +48,27 @@ void Menu::displayFirstMenu(ListManager& lmanager, User& user)
 	} while (op != NULL);
 }
 
-void Menu::displaySecondMenu(ListManager& lmanager, User& user, List& list)
+void Menu::displaySecondMenu(ListManager& lmanager, User& user)
 {
 	int op;
 	system("cls");
 
 	do 
 	{
-		op= getSecondOp(list);
+		op= getSecondOp();
 		switch (op) 
 		{
-		case 1: user.uPrependNode(list); break;
-		case 2: user.uAppendNode(list); break;
-		case 3: user.uAddInPosition(list); break;
-		case 4: user.uRemoveInPos(list); break;
-		case 5: user.uDisplayAsc(list); break;
-		case 6: user.uDisplayDesc(list); break;
-		case 7: user.uSortList(list); break;
-		case 8: system("cls"); op= NULL; break;
+		case 1: user.uPrependNode(lmanager); break;
+		case 2: user.uAppendNode(lmanager); break;
+		case 3: user.uAddInPosition(lmanager); break;
+		case 4: user.uRemoveInPos(lmanager); break;
+		case 5: user.uDisplayAsc(lmanager); break;
+		case 6: user.uDisplayDesc(lmanager); break;
+		case 7: user.uSortList(lmanager); break;
+		case 8: user.uDeleteAllNodes(lmanager); break;
+		case 9: system("cls"); op= NULL; break;
 		case 0: exit(0);
-		default: std::cout << "Invalid option.\n" << endl; break;
+		default: system("cls"); std::cout << "Invalid option.\n"; break;
 		}
 	} while (op != NULL);
 }
@@ -89,7 +92,7 @@ int Menu::getFirstOp()
 }
 
 
-int Menu::getSecondOp(List& list)
+int Menu::getSecondOp()
 {
 	int option;
 
@@ -103,7 +106,8 @@ int Menu::getSecondOp(List& list)
 	cout << "            " << "Option 5: List all nodes" << endl;
 	cout << "            " << "Option 6: List all nodes in reverse" << endl;
 	cout << "            " << "Option 7: Sort list" << endl;
-	cout << "            " << "Option 8: Back to previous menu" << endl;
+	cout << "            " << "Option 8: Clear List" << endl;
+	cout << "            " << "Option 9: Back to previous menu" << endl;
 	cout << "            " << "Option 0: Exit" << endl;
 	cout << "/////////////////////////////////////////////////////////////////\n" << endl;
 	cin >> option;

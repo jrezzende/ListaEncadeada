@@ -11,10 +11,10 @@ namespace Menu
 {
 		void Menu();
 		void displayFirstMenu(ListManager&, User&);
-		void displaySecondMenu(ListManager&, User&, List&);
+		void displaySecondMenu(ListManager&, User&);
 		int getFirstOp();
-		int getSecondOp(List&);
+		int getSecondOp();
 
-};
+}
 
 #endif // !MENU_H */
