@@ -7,17 +7,23 @@
 #include "List.h"
 #include "User.h"
 
+static void displayFirstMenu(ListManager&, User&);
+static void displaySecondMenu(ListManager&, User&);
+
+static int getFirstOp();
+static int getSecondOp();
+
 using namespace std;
 
-void Menu::Menu()
+void Menu::menu()
 {
 	User user;
 	ListManager lmanager;
 
-	Menu::displayFirstMenu(lmanager, user);
+	displayFirstMenu(lmanager, user);
 }
 
-void Menu::displayFirstMenu(ListManager& lmanager, User& user)
+static void displayFirstMenu(ListManager& lm, User& user)
 {
 	system("cls");
 
@@ -25,22 +31,21 @@ void Menu::displayFirstMenu(ListManager& lmanager, User& user)
 
 	do {
 		op= getFirstOp();
-		switch (op)
-		{
-		case 1: user.uCreateBothLists(lmanager); break;
-		case 2: user.uDisplayLists(lmanager); break;
-		case 3: user.uConcatenateLists(lmanager); break;
-		case 4: user.uDeleteLists(lmanager); break;
+		switch (op) {
+		case 1: user.uCreateBothLists(lm); break;
+		case 2: user.uDisplayLists(lm); break;
+		case 3: user.uConcatenateLists(lm); break;
+		case 4: user.uDeleteLists(lm); break;
 		case 5:
 		{
 			system("cls");
-			user.uSetCurrentList(lmanager);
-			if (lmanager.getCurrentList()) {
-				Menu::displaySecondMenu(lmanager, user);
+			user.uSetCurrentList(lm);
+			if (lm.getCurrentList()) {
+				displaySecondMenu(lm, user);
 				break;
 			}
 			else
-				user.uDisplayLists(lmanager); break;
+				user.uDisplayLists(lm); break;
 		}
 		case 0: exit(0);
 		default: system("cls"); cout << "Invalid option." << endl; break;
@@ -48,7 +53,7 @@ void Menu::displayFirstMenu(ListManager& lmanager, User& user)
 	} while (op != NULL);
 }
 
-void Menu::displaySecondMenu(ListManager& lmanager, User& user)
+static void displaySecondMenu(ListManager& lm, User& user)
 {
 	int op;
 	system("cls");
@@ -56,16 +61,15 @@ void Menu::displaySecondMenu(ListManager& lmanager, User& user)
 	do 
 	{
 		op= getSecondOp();
-		switch (op) 
-		{
-		case 1: user.uPrependNode(lmanager); break;
-		case 2: user.uAppendNode(lmanager); break;
-		case 3: user.uAddInPosition(lmanager); break;
-		case 4: user.uRemoveInPos(lmanager); break;
-		case 5: user.uDisplayAsc(lmanager); break;
-		case 6: user.uDisplayDesc(lmanager); break;
-		case 7: user.uSortList(lmanager); break;
-		case 8: user.uDeleteAllNodes(lmanager); break;
+		switch (op) {
+		case 1: user.uPrependNode(lm); break;
+		case 2: user.uAppendNode(lm); break;
+		case 3: user.uAddInPosition(lm); break;
+		case 4: user.uRemoveInPos(lm); break;
+		case 5: user.uDisplayAsc(lm); break;
+		case 6: user.uDisplayDesc(lm); break;
+		case 7: user.uSortList(lm); break;
+		case 8: user.uDeleteAllNodes(lm); break;
 		case 9: system("cls"); op= NULL; break;
 		case 0: exit(0);
 		default: system("cls"); std::cout << "Invalid option.\n"; break;
@@ -73,7 +77,7 @@ void Menu::displaySecondMenu(ListManager& lmanager, User& user)
 	} while (op != NULL);
 }
 
-int Menu::getFirstOp()
+static int getFirstOp()
 {
 	int option;
 	cout << "//////////////////////////////////////////////////////\n";
@@ -92,7 +96,7 @@ int Menu::getFirstOp()
 }
 
 
-int Menu::getSecondOp()
+static int getSecondOp()
 {
 	int option;
 

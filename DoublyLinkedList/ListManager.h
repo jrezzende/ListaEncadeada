@@ -1,24 +1,27 @@
 #pragma once
-#ifndef LIST_MANAGER_H
-#define LIST_MANAGER_H
-#include "List.h"
-#include "Menu.h"
+#ifndef INCLUDED_LISTMANAGER_H
+#define INCLUDED_LISTMANAGER_H
+
+#include <string>
+
+class List;
 
 class ListManager 
 {
 private:
 	List *firstList;
 	List *secondList;
-	List *currentList; // set current list
+	List *currentList;
 
 public:
 	ListManager() { firstList= nullptr; secondList= nullptr; currentList= firstList; };
 	~ListManager() { firstList= secondList= nullptr; };
 
-	void createBothLists(string, string);
+	void createBothLists(std::string& nameList1, std::string& nameList2);
 	void displayLists();
 	bool concatenateLists(int pos);
 	void deleteLists();
+
 	void setCurrentList(int n);
 	void setFirstList(List*);
 	void setSecondList(List*);
@@ -26,7 +29,6 @@ public:
 	List* getFirstList();
 	List* getSecondList();
 	List* getCurrentList();
-
 };
 
-#endif // !LIST_MANAGER_H
+#endif // INCLUDED_LISTMANAGER_H

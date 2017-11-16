@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "List.h"
 #include <iostream>
 
@@ -18,7 +17,7 @@ List::List(int value)
 	listName= "";
 }
 
-List::List(string name)
+List::List(std::string name)
 {
 	listName= name;
 }
@@ -27,12 +26,12 @@ List::~List()
 {
 }
 
-List::Node * List::getHead()
+List::Node* List::getHead()
 {
 	return head;
 }
 
-List::Node * List::getTail()
+List::Node* List::getTail()
 {
 	return tail;
 }
@@ -41,8 +40,7 @@ void List::prependNode(int value)
 {
 	Node *new_node= new Node(value);
 
-	if (getListSize() != 0)
-	{
+	if (getListSize() != 0) {
 		Node* temp= head;
 		new_node->nextNode= temp;
 		temp->prevNode= new_node;
@@ -58,8 +56,7 @@ void List::appendNode(int value)
 {
 	Node *new_node= new Node(value);
 
-	if (getListSize() != 0)
-	{
+	if (getListSize() != 0)	{
 		Node *temp= tail;
 		temp->nextNode= new_node;
 		new_node->prevNode= temp;
@@ -76,6 +73,7 @@ List::Node * List::getPosition(int pos)
 		return nullptr;
 
 	Node *node= head;
+
 	for (int i= 1; i < pos; i++)
 		node= node->nextNode;
 
@@ -92,7 +90,6 @@ void List::addInPosition(int value, int position)
 		prependNode(value);
 		return;
 	}
-
 	else if (position >= getListSize()) {
 		appendNode(value);
 		return;
@@ -101,8 +98,6 @@ void List::addInPosition(int value, int position)
 		prev= getPosition(position-1);
 
 	next= prev->nextNode;
-
-	
 	prev->nextNode= new_node;
 	new_node->prevNode= prev;
 	next->prevNode= new_node;
@@ -113,8 +108,7 @@ void List::addInPosition(int value, int position)
 
 void List::removeFirst()
 {
-	if (head)
-	{
+	if (head) {
 		Node *temp;
 		temp = head->nextNode;
 		delete head;
@@ -148,6 +142,7 @@ void List::removeInPos(int pos)
 	prev= temp->prevNode;
 	next= temp->nextNode;
 	delete temp;
+
 	prev->nextNode= next;
 	next->prevNode= prev;
 
@@ -163,27 +158,24 @@ void List::displayAsc()
 		return;
 	}
 
-	for (int i= 1; i < listSize; i++) 
-	{
+	for (int i= 1; i < listSize; i++) {
 		std::cout << "In position: " << i << " the value is: " << node->getData() << std::endl;
 		node= node->nextNode;
 	}
-
-	std::cout << "In position: " << listSize << " the value is: " << node->getData() << endl;
+	std::cout << "In position: " << listSize << " the value is: " << node->getData() << std::endl;
 }
 
 void List::displayDesc()
 {
 	Node *node= tail;
+
 	int listSize = getListSize();
 	int i = listSize;
-
 
 	if (listSize == 0)
 		std::cout << "The list is empty\n";
 
-	while (i > 0)
-	{
+	while (i > 0) {
 		std::cout << "In position: " << i-- << " the value is: " << node->getData() << "\n";
 		node= node->prevNode;
 	}
@@ -194,10 +186,8 @@ void List::sortList()
 	Node *current= head;
 	Node *next;
 
-	while (current != nullptr)
-	{
-		for (next= current->nextNode; next != nullptr; next= next->nextNode)
-		{
+	while (current != nullptr)	{
+		for (next= current->nextNode; next != nullptr; next= next->nextNode)	{
 			if (current->getData() > next->getData())
 			{
 				int tempData= current->getData();
@@ -220,8 +210,7 @@ void List::deleteAllNodes()
 {
 	Node *temp= head;
 
-	while (temp)
-	{
+	while (temp) {
 		Node *tempNext= temp->nextNode;
 		delete temp;
 		temp= tempNext;

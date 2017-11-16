@@ -1,20 +1,13 @@
 #pragma once
-#ifndef MENU_H
-#define MENU_H
-#include "List.h"
-#include "ListManager.h"
-#include "User.h"
+#ifndef INCLUDED_MENU_H
+#define INCLUDED_MENU_H
+
 class User;
 class ListManager;
 
 namespace Menu
 {
-		void Menu();
-		void displayFirstMenu(ListManager&, User&);
-		void displaySecondMenu(ListManager&, User&);
-		int getFirstOp();
-		int getSecondOp();
-
+   void menu();
 }
 
-#endif // !MENU_H */
+#endif // INCLUDED_MENU_H 
