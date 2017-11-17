@@ -1,20 +1,19 @@
-#include "List.h"
 #include <iostream>
+#include "List.h"
 
 List::List()
 {
-	head= nullptr;
-	tail= nullptr; 
+	head= tail= nullptr; 
+
 	listSize= 0;
-	listName= "";
 }
 
 List::List(int value)
 {
 	head= new Node(value);
 	tail= head;
+
 	listSize= 1;
-	listName= "";
 }
 
 List::List(std::string name)
@@ -22,9 +21,7 @@ List::List(std::string name)
 	listName= name;
 }
 
-List::~List()
-{
-}
+////////////////////////////////////////////////////////////////////////////////
 
 List::Node* List::getHead()
 {
@@ -41,9 +38,8 @@ void List::prependNode(int value)
 	Node *new_node= new Node(value);
 
 	if (getListSize() != 0) {
-		Node* temp= head;
-		new_node->nextNode= temp;
-		temp->prevNode= new_node;
+		new_node->nextNode= head;
+      head->prevNode= new_node;
 	}
 	else
 		tail= new_node;
@@ -57,9 +53,8 @@ void List::appendNode(int value)
 	Node *new_node= new Node(value);
 
 	if (getListSize() != 0)	{
-		Node *temp= tail;
-		temp->nextNode= new_node;
-		new_node->prevNode= temp;
+      tail->nextNode= new_node;
+		new_node->prevNode= tail;
 	}
 	else
 		head= new_node;
@@ -67,7 +62,8 @@ void List::appendNode(int value)
 	tail= new_node;
 	listSize++;
 }
-List::Node * List::getPosition(int pos)
+
+List::Node* List::getPosition(int pos)
 {
 	if ((pos < 0) || (pos > listSize))
 		return nullptr;
@@ -98,6 +94,7 @@ void List::addInPosition(int value, int position)
 		prev= getPosition(position-1);
 
 	next= prev->nextNode;
+
 	prev->nextNode= new_node;
 	new_node->prevNode= prev;
 	next->prevNode= new_node;
@@ -108,39 +105,39 @@ void List::addInPosition(int value, int position)
 
 void List::removeFirst()
 {
-	if (head) {
-		Node *temp;
-		temp = head->nextNode;
-		delete head;
-		head= temp;
-		--listSize;
-	}
-	else
-		std::cout << "The list is empty.\n";
+   if (head) {
+      Node *temp= head->nextNode;
+      delete head;
+      head= temp;
+      --listSize;
+   }
+   else
+      return;
 }
 
 void List::removeLast()
 {
-	if (tail)
-	{
-		Node *temp;
-		temp = tail->prevNode;
-		delete tail;
-		tail= temp;
-		--listSize;
-	}
-	else
-		std::cout << "The list is empty.\n";
+   if (tail) {
+      Node *temp= tail->prevNode;
+      delete tail;
+      tail= temp;
+      --listSize;
+   }
+   else
+      return;
 }
 
 void List::removeInPos(int pos)
 {
-	Node *temp = getPosition(pos);
-	Node *prev;
-	Node *next;
+	Node *temp= getPosition(pos);
 
-	prev= temp->prevNode;
-	next= temp->nextNode;
+   if (!temp) {
+      std::cout << "Invalid remove position.\n";
+      return;
+   }
+       
+   Node *prev= temp->prevNode;
+   Node *next= temp->nextNode;
 	delete temp;
 
 	prev->nextNode= next;
@@ -154,26 +151,22 @@ void List::displayAsc()
 	Node *node= head;
 
 	if (listSize == 0) {
-		std::cout << "The list is empty";
 		return;
 	}
 
-	for (int i= 1; i < listSize; i++) {
+	for (int i= 1; i <= listSize; i++) {
 		std::cout << "In position: " << i << " the value is: " << node->getData() << std::endl;
 		node= node->nextNode;
 	}
-	std::cout << "In position: " << listSize << " the value is: " << node->getData() << std::endl;
 }
 
 void List::displayDesc()
 {
 	Node *node= tail;
+	int i= listSize;
 
-	int listSize = getListSize();
-	int i = listSize;
-
-	if (listSize == 0)
-		std::cout << "The list is empty\n";
+   if (listSize == 0)
+      return;
 
 	while (i > 0) {
 		std::cout << "In position: " << i-- << " the value is: " << node->getData() << "\n";
@@ -188,8 +181,7 @@ void List::sortList()
 
 	while (current != nullptr)	{
 		for (next= current->nextNode; next != nullptr; next= next->nextNode)	{
-			if (current->getData() > next->getData())
-			{
+			if (current->data > next->data) {
 				int tempData= current->getData();
 				current->setData(next->getData());
 				next->setData(tempData);
@@ -199,24 +191,26 @@ void List::sortList()
 	}
 }
 
-void List::concatList(List *toConcat)
+void List::concatList(List& toConcat)
 {
-	tail->nextNode= toConcat->getHead();
-	toConcat->head->prevNode= tail;
-	listSize+= toConcat->getListSize();
+	tail->nextNode= toConcat.head;
+	toConcat.head->prevNode= tail;
+	listSize += toConcat.listSize;
+
+   toConcat.head= toConcat.tail= nullptr;
+   toConcat.listSize= 0;
 }
 
 void List::deleteAllNodes()
 {
-	Node *temp= head;
-
-	while (temp) {
-		Node *tempNext= temp->nextNode;
-		delete temp;
-		temp= tempNext;
-		listSize--;
+	while (head) {
+		Node *tempNext= head->nextNode;
+		delete head;
+      head= tempNext;
 	}
-	head= tail= nullptr;
+
+   listSize= 0;
+   tail= nullptr;
 }
 
 int List::getListSize()

@@ -12,23 +12,25 @@ private:
 	List *firstList;
 	List *secondList;
 	List *currentList;
+   bool isInitLists= false;
 
 public:
-	ListManager() { firstList= nullptr; secondList= nullptr; currentList= firstList; };
-	~ListManager() { firstList= secondList= nullptr; };
+   enum ListOption { List1, List2 };
 
+   ~ListManager();
+   ListManager() { firstList= nullptr; secondList= nullptr; currentList= firstList; }
+
+   bool areCreatedLists() { return isInitLists; }
 	void createBothLists(std::string& nameList1, std::string& nameList2);
 	void displayLists();
 	bool concatenateLists(int pos);
 	void deleteLists();
 
-	void setCurrentList(int n);
-	void setFirstList(List*);
-	void setSecondList(List*);
+	void setCurrentList(ListOption lo);
 
-	List* getFirstList();
-	List* getSecondList();
-	List* getCurrentList();
+	List& getFirstList();
+	List& getSecondList();
+	List& getCurrentList();
 };
 
 #endif // INCLUDED_LISTMANAGER_H

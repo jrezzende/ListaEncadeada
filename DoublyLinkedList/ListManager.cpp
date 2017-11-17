@@ -1,47 +1,54 @@
-#include "ListManager.h"
-#include "List.h"
 #include <iostream>
-void ListManager::setCurrentList(int n)
+#include "List.h"
+#include "ListManager.h"
+
+////////////////////////////////////////////////////////////////////////////////
+
+ListManager::~ListManager()
 {
-	if (n == 1)
-		currentList= firstList;
-	else if (n == 2)
-		currentList= secondList;
-	else
-		std::cout << "Invalid option, choose either '1' or '2'.\n";
-	
-   return;
+   if (firstList) delete firstList;
+   if (secondList) delete secondList;
+
+   firstList= secondList= nullptr;
 }
 
-void ListManager::setFirstList(List* list)
+void ListManager::setCurrentList(ListOption lo)
 {
-	firstList= list;
+   if (lo == List1) {
+      currentList= firstList;
+      return;
+   }
+	// (lo == List2)
+	currentList= secondList;
 }
 
-void ListManager::setSecondList(List* list)
+List& ListManager::getFirstList() { return *firstList; }
+
+List& ListManager::getSecondList() { return *secondList; }
+
+List& ListManager::getCurrentList()
 {
-	secondList= list;
+	return *currentList;
 }
 
-List* ListManager::getFirstList()
-{
-	return firstList;
-}
+////////////////////////////////////////////////////////////////////////////////
 
-List* ListManager::getSecondList()
+void ListManager::createBothLists(std::string& nameList1, std::string& nameList2) 
 {
-	return secondList;
-}
+   if (firstList)
+      firstList->deleteAllNodes();
+   else
+      firstList= new List;
 
-List* ListManager::getCurrentList()
-{
-	return currentList;
-}
+   if (secondList)
+      secondList->deleteAllNodes();
+   else
+      secondList= new List;
 
-void ListManager::createBothLists(std::string& nameList1, std::string& nameList2)
-{
-	firstList= new List(nameList1);
-	secondList= new List(nameList2);
+   firstList->listName= nameList1;
+	secondList->listName= nameList2;
+
+   isInitLists= true;
 }
 
 void ListManager::displayLists()
@@ -57,33 +64,23 @@ void ListManager::displayLists()
 
 bool ListManager::concatenateLists(int pos)
 {
-	int totalSize;
+	if ((pos != 1) && (pos != 2))
+      return false;
 
-	if ((pos != 1) && (pos != 2)) {
-			std::cout << "Invalid list number, cannot concatenate.\n";
-			return false;
-	}
+   if (pos == 1)
+      secondList->concatList(*firstList);
+   else if (pos == 2)
+      firstList->concatList(*secondList);
 
-	if (pos == 1) {
-		secondList->concatList(firstList);
-		totalSize= secondList->getListSize() + firstList->getListSize();
-
-		std::cout << "List one was successfully attached to the end of list two\n";
-	}
-	else if (pos == 2) {
-		firstList->concatList(secondList);
-		totalSize= firstList->getListSize() + secondList->getListSize();
-
-		std::cout << "List two was successfully attached to the end of list one\n";
-	}
+   return true;
 }
 
 void ListManager::deleteLists()
 {
 	currentList->deleteAllNodes();
 	currentList->listName= "";
-
-	std::cout << "List has been cleared\n";
+   
+   return;
 }
 
 

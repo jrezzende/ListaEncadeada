@@ -11,7 +11,7 @@ void User::uPrependNode(ListManager& lm)
 	std::cout << "Set an initial node data value: \n";
 	std::cin >> value;
 
-	lm.getCurrentList()->prependNode(value);
+	lm.getCurrentList().prependNode(value);
 
    system("cls");
 	std::cout << "Node successfully added.\n";
@@ -25,7 +25,7 @@ void User::uAppendNode(ListManager& lm)
 	std::cout << "Set an initial node data value: \n";
    std::cin >> value;
 
-	lm.getCurrentList()->appendNode(value);
+	lm.getCurrentList().appendNode(value);
 
    system("cls");
 
@@ -35,7 +35,7 @@ void User::uAppendNode(ListManager& lm)
 void User::uAddInPosition(ListManager& lm)
 {
 	system("cls");
-	lm.getCurrentList()->displayAsc();
+	lm.getCurrentList().displayAsc();
 
    int value;
    int pos;
@@ -48,7 +48,7 @@ void User::uAddInPosition(ListManager& lm)
 	std::cout << "Set the position you want to add a node.\n";
    std::cin >> pos;
 
-	lm.getCurrentList()->addInPosition(value, pos);
+	lm.getCurrentList().addInPosition(value, pos);
 
 	std::cout << "Node successfully added.\n";
 }
@@ -57,7 +57,7 @@ void User::uDisplayAsc(ListManager& lm)
 {
 	system("cls");
 
-	lm.getCurrentList()->displayAsc();
+	lm.getCurrentList().displayAsc();
 
 	std::cout << std::endl;
 }
@@ -65,19 +65,19 @@ void User::uDisplayAsc(ListManager& lm)
 void User::uDisplayDesc(ListManager& lm)
 {
 	system("cls");
-	lm.getCurrentList()->displayDesc();
+	lm.getCurrentList().displayDesc();
 }
 
 void User::uSortList(ListManager& lm)
 {
 	system("cls");
 
-	if (!lm.getCurrentList()->getHead()) {
+	if (!lm.getCurrentList().getListSize()) {
 		std::cout << "The list is empty\n";
 		return;
 	}
 
-	lm.getCurrentList()->sortList();
+	lm.getCurrentList().sortList();
 
 	std::cout << "List was successfully sorted.\n";
 }
@@ -86,35 +86,35 @@ void User::uRemoveInPos(ListManager& lm)
 {
 	system("cls");
 
-	if (lm.getCurrentList()->getHead() == nullptr) {
+	if (!lm.getCurrentList().getListSize()) {
       std::cout << "There is no node available for deletion.\n";
 		return;
 	}
 
    int pos;
 
-   lm.getCurrentList()->displayAsc();
+   lm.getCurrentList().displayAsc();
 	std::cout << "Choose a position to remove a node from the list.\n";
    std::cin >> pos;
 
-	if (pos >= lm.getCurrentList()->getListSize())
-		lm.getCurrentList()->removeLast();
+	if (pos >= lm.getCurrentList().getListSize())
+		lm.getCurrentList().removeLast();
 	else if (pos <= 1) 
-		lm.getCurrentList()->removeFirst();
+		lm.getCurrentList().removeFirst();
 	else
-		lm.getCurrentList()->removeInPos(pos);
+		lm.getCurrentList().removeInPos(pos);
 }
 
 void User::uDeleteAllNodes(ListManager& lm)
 {
 	system("cls");
 
-	if (lm.getCurrentList()->getHead() == nullptr) {
+	if (!lm.getCurrentList().getListSize()) {
       std::cout << "List is already empty.\n";
 		return;
 	}
 
-	lm.getCurrentList()->deleteAllNodes();
+	lm.getCurrentList().deleteAllNodes();
 
    std::cout << "List successfully cleared.\n";
 }
@@ -145,7 +145,7 @@ void User::uDisplayLists(ListManager& lm)
 {
 	system("cls");
 
-	if (!(lm.getFirstList()) && !(lm.getSecondList())) {
+	if (!lm.areCreatedLists()) {
       std::cout << "No list available.\n";
 		return;
 	}
@@ -157,16 +157,13 @@ void User::uDeleteLists(ListManager& lm)
 {
 	system("cls");
 
-	if ((lm.getFirstList() == nullptr) && (lm.getSecondList() == nullptr)) {
+	if (!lm.areCreatedLists()) {
       std::cout << "No list available to delete.\n";
 		return;
 	}
 
-	lm.getFirstList()->deleteAllNodes();
-	lm.setFirstList(nullptr);
-
-	lm.getSecondList()->deleteAllNodes();
-	lm.setSecondList(nullptr);
+	lm.getFirstList().deleteAllNodes();
+	lm.getSecondList().deleteAllNodes();
 
    std::cout << "Both lists deleted successfully.\n";
 }
@@ -175,13 +172,8 @@ bool User::uConcatenateLists(ListManager& lm)
 {
 	system("cls");
 
-	if (!(lm.getFirstList()) || !(lm.getSecondList())) {
+   if (!lm.areCreatedLists()) {
 		std::cout << "You need at least two lists available to concatenate.\n";
-		return false;
-	}
-
-	if ((lm.getFirstList()->getHead() == nullptr) || (lm.getSecondList()->getHead() == nullptr)) {
-		std::cout << "List is empty, cannot concatenate.\n";
 		return false;
 	}
 
@@ -190,16 +182,11 @@ bool User::uConcatenateLists(ListManager& lm)
    std::cout << "Choose the list you want to attach at the end.\n";
    std::cin >> pos;
 	
-	lm.concatenateLists(pos);
+	return lm.concatenateLists(pos);
 }
 
 void User::uSetCurrentList(ListManager& lm)
 {
-	if ((lm.getFirstList() == nullptr) || (lm.getSecondList() == nullptr)) {
-		std::cout << "No list available.\n";
-		return;
-	}
-
 	lm.displayLists();
 
    int num;
@@ -213,5 +200,6 @@ void User::uSetCurrentList(ListManager& lm)
 		std::cout << "Invalid position, choose either the first or the second list.\n";
 		return;
 	}
-	lm.setCurrentList(num);
+
+	lm.setCurrentList((num == 1) ? ListManager::List1 : ListManager::List2);
 }

@@ -6,52 +6,55 @@
 
 class List
 {
-	private:
-		struct Node 
-		{
-			int data;
+private:
+	struct Node 
+	{
+		int data;
 
-			Node *nextNode;
-			Node *prevNode;
+		Node *nextNode;
+		Node *prevNode;
 
-			Node() : data(0), nextNode(nullptr), prevNode(nullptr) {}
-			Node(int value) : data(value), nextNode(nullptr), prevNode(nullptr) {}
+		Node() : data(0), nextNode(nullptr), prevNode(nullptr) {}
+		Node(int value) : data(value), nextNode(nullptr), prevNode(nullptr) {}
 
-			int getData() { return data; }
-         void setData(int value) { data= value; }
-		};
+		int getData() { return data; }
+      void setData(int value) { data= value; }
+	};
 
-		Node *head;
-		Node *tail;
-		int listSize;
+	Node *head;
+	Node *tail;
+	int listSize;
 
-	public:
-		std::string listName;
+private:
+   Node *getHead();
+   Node *getTail();
+   Node* getPosition(int pos);
 
-		List();
-		List(int value);
-		List(std::string);
-		~List();
+public:
+	std::string listName;
 
-		Node *getHead(); 
-		Node *getTail();
-      Node* getPosition(int pos);
-      int getListSize();
+public:
+   ~List() { deleteAllNodes(); }
+   List();
+	List(int value);
+	List(std::string);
 
-		void prependNode(int value);
-		void appendNode(int value);
-		void addInPosition(int pos, int value);
+   int getListSize();
 
-		void removeFirst();
-		void removeLast();
-		void removeInPos(int pos);
-      void deleteAllNodes();
+	void prependNode(int value);
+	void appendNode(int value);
+	void addInPosition(int pos, int value);
 
-		void sortList();
-		void displayAsc();
-		void displayDesc();
+	void removeFirst();
+	void removeLast();
+	void removeInPos(int pos);
+   void deleteAllNodes();
 
-		void concatList(List *toConcat);
-		
+	void sortList();
+	void displayAsc();
+	void displayDesc();
+
+	void concatList(List& toConcat);
 };
-#endif INCLUDED_LIST_H
+
+#endif // INCLUDED_LIST_H

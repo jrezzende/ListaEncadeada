@@ -40,14 +40,14 @@ static void displayFirstMenu(ListManager& lm, User& user)
 		{
 			system("cls");
 			user.uSetCurrentList(lm);
-			if (lm.getCurrentList()) {
+			if (lm.areCreatedLists()) {
 				displaySecondMenu(lm, user);
 				break;
 			}
 			else
 				user.uDisplayLists(lm); break;
 		}
-		case 0: exit(0);
+		case 0: return;
 		default: system("cls"); cout << "Invalid option." << endl; break;
 		}
 	} while (op != NULL);
